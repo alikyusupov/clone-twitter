@@ -1,6 +1,7 @@
 const app = require("./app")
 const port = process.env.PORT || 3000
 const {connectDB} = require("./utils/db/connectDB")
+//const {unexpectedErrorHandler} = require("./utils/error/unexpectedErrorHandler")
 let server = null;//Значение присвоим после подключения к БД
 
 app.get("/", (req, res, next)=>{
@@ -17,6 +18,8 @@ connectDB()
 .catch(err=>{
 	console.log(err)
 })
+//process.on("uncaughtException", unexpectedErrorHandler(server))
+//process.on("unhandledRejection", unexpectedErrorHandler(server))
 
 //Graceful shutdown
 process.on("SIGTERM",async()=>{
