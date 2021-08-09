@@ -34,7 +34,8 @@ exports.getTweets = async (req, next) =>{
     try{
         const userID = req.params.userID;
         const details = await User.findById(userID).populate("tweets")
-        return details.tweets
+        const {tweets, lastname, name} = details
+        return {tweets, lastname, name}
     }catch(err){
         return next(apiErrorHandler(err, 401, "Tweets fetching failure!"))
     }
