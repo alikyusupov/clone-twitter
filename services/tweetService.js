@@ -1,5 +1,6 @@
 const Tweet  = require("../models/Tweet")
 const User  = require("../models/User")
+const Comment = require("../models/Comment")
 const {apiErrorHandler} = require("../utils/error/apiErrorHandler")
 const { uploadFile , getFileStream } = require('../s3.js');
 
@@ -33,7 +34,16 @@ exports.postTweet = async (req, next) =>{
 exports.getTweets = async (req, next) =>{
     try{
         const userID = req.params.userID;
-        const details = await User.findById(userID).populate("tweets")
+        const details = await User.findById(userID).populate({
+            path:"tweets",
+            populate:{
+                path:"comments",
+                populate:{
+                    path:"author",
+                    select:"name lastname -_id"
+                }
+            }
+        })
         const {tweets, lastname, name} = details
         return {tweets, lastname, name}
     }catch(err){
@@ -56,6 +66,23 @@ exports.getTweetImage = async (req, res, next)=>{
         const key = req.params.key;
         const readStream = getFileStream(key);
         readStream.pipe(res);
+    }catch(err){
+        return next(apiErrorHandler(err, 500, err.message))
+    }
+}
+
+exports.postComment = async (req, next)=>{
+    try{
+        const {userID, tweetID, desc} = req.body
+        const comment = new Comment({
+            author:userID,
+            tweetID,
+            desc
+        })
+        const result1 = await comment.save()
+        const result2 = await Tweet.findByIdAndUpdate(tweetID,{$push:{"comments":result1._id}}).exec()
+        //const result2 = await User.findByIdAndUpdate(followID, {$push:{"followers":result1._id}}).exec()
+        return result2
     }catch(err){
         return next(apiErrorHandler(err, 500, err.message))
     }

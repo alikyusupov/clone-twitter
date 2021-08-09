@@ -39,6 +39,10 @@ const userSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Tweet"
     }],
+    bookmarks:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Tweet"
+    }],
     followed:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"

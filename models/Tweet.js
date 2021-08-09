@@ -22,12 +22,8 @@ const tweetSchema = mongoose.Schema({
         type: String
     },
     comments:[{
-        avatarUrl:{
-            type:String,
-        },
-        desc:{
-            type:String
-        }
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Comment"
     }]
 },
 {
