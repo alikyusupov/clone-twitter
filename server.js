@@ -16,18 +16,23 @@ connectDB()
 	});
 })
 .catch(err=>{
-	console.log(err)
+    unexpectedErrorHandler(err)
 })
 //process.on("uncaughtException", unexpectedErrorHandler(server))
 //process.on("unhandledRejection", unexpectedErrorHandler(server))
+
+function unexpectedErrorHandler(err){
+    if(server)server.close()
+    process.exit(1)
+}
 
 //Graceful shutdown
 process.on("SIGTERM",async()=>{
     try{
         await mongoose.connection.close()
         await server.close()
-    }catch(e){
-        console.log(e)
+    }catch(err){
+        console.log(err.message)
     }
     finally{
         process.exit(1)
