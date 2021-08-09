@@ -1,7 +1,5 @@
-exports.unexpectedErrorHandler = server =>{
-    if(server){
-        server.close(()=>process.exit(1))
-    }else{
-        process.exit(1)
-    }
+exports.unexpectedErrorHandler = (err,server) =>{
+    console.log(err.message)
+    if(server)server.close()
+    process.exit(1)
 }

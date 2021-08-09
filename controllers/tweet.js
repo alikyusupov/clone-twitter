@@ -41,3 +41,13 @@ exports.getTweetImage = async (req, res, next)=>{
         return next(apiErrorHandler(err, 500, err.message))
     }
 }
+
+exports.postComment = async (req, res, next)=>{
+    try{
+        const result = await tweetService.postComment(req, next)
+        if(result)
+            res.status(200).json({message:"Comment is posted!"})
+    }catch(err){
+        return next(apiErrorHandler(err, 500, err.message))
+    }
+}
