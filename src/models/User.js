@@ -50,6 +50,10 @@ const userSchema = mongoose.Schema({
     followers:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
+    }],
+    chats:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Chat"
     }]
 },
 {
