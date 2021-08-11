@@ -9,5 +9,6 @@ router.post("/follow", express.json(), isAuth, userControllers.postFollow)
 router.post("/bookmark", express.json(), isAuth, userControllers.postBookmark)
 router.get("/bookmarks/:userID", isAuth, userControllers.getBookmarks)
 router.get("/followers/:userID", isAuth, userControllers.getFollowers)
+router.post("/chat", express.json(), isAuth, userControllers.postChat)
 
 module.exports = router

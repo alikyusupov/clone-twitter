@@ -10,8 +10,8 @@ const {
     userLeave,
     getRoomUsers,
 } = require("./utils/socket/users");
-module.exports = io => {
 
+module.exports = io => {
     io.on("connection", (socket) => {
         socket.on("joinRoom", async ({ username, roomName }) => {
             // join a user

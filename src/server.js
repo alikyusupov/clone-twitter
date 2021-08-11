@@ -1,14 +1,13 @@
 const app = require("./app")
+const path = require("path");
 const port = process.env.PORT || 3000
 const { connectDB } = require("./utils/db/connectDB")
 const { unexpectedErrorHandler } = require("./utils/error/unexpectedErrorHandler")
-//let server = null;//Значение присвоим после подключения к БД
-const http = require('http');
-const server = http.createServer(app);
+const server = require('http').createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 require('./socket.js')(io);
-const path = require("path");
+
 
 
 app.get("/", (req, res, next) => {
@@ -16,7 +15,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.get("/chat", (req, res, next) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
 connectDB()
