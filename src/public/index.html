@@ -53,12 +53,13 @@
             #messages > li {
                 padding: 0.5rem 1rem;
             }
-            #messages > li:nth-child(odd) {
-                background: #efefef;
-            }
             .typingIndicator_hidden {
                 opacity: 0;
                 transition: 0.3s;
+            }
+            .myMsg{
+                background: #efefef;
+                text-align: right;
             }
         </style>
     </head>
@@ -81,7 +82,7 @@
         <script src="/socket.io/socket.io.js"></script>
         <script>
             const username = prompt("Your name", "");
-            const roomName = prompt("room", "");
+            //const roomName = prompt("room", "");
             const socket = io();
             const messages = document.getElementById("messages");
             const form = document.getElementById("form");
@@ -90,16 +91,18 @@
             const typingIndicator = document.getElementById("typingIndicator");
 
             // Join chatroom
-            socket.emit("joinRoom", { username, roomName });
+            socket.emit("joinRoom", { username });
 
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
                 let time = getCurrentTime();
                 if (input.value) {
                     socket.emit("chat message", {
+                        chat_id: "6110fe2dff4f651068bddafd",
                         value: input.value,
                         username,
                         time,
+                        socketID:socket.id
                     });
                     input.value = "";
                 }
@@ -113,6 +116,8 @@
 
             socket.on("chat message", function (msg) {
                 const item = document.createElement("li");
+                if(msg.socketID == socket.id)
+                    item.classList.add("myMsg")
                 item.innerHTML = `[${msg.time}] - ${msg.username} : ${msg.value}`;
                 messages.append(item);
                 window.scrollTo(0, document.body.scrollHeight);

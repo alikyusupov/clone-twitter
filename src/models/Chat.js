@@ -8,6 +8,13 @@ const Message = new Schema({
     path:{
         type:String
     },
+    time:{
+        type:String
+    },
+    username:{
+        type:String,
+        default:" "
+    },
     isMine:{
         type:Boolean
     }
@@ -17,15 +24,13 @@ const Message = new Schema({
 })
 
 const Chat = new Schema({
-    chat_id: { 
-        type: String, 
-        required: true 
+    creatorID:{
+        type:Schema.Types.ObjectId
     },
-    users: [{
-        type: String, 
-        required: true 
-    }],
-    chat_fields: [Message]
+    userID:{
+        type:Schema.Types.ObjectId
+    },
+    messages: [Message]
 });
 
 module.exports = model("Chat", Chat);

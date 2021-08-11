@@ -1,4 +1,5 @@
 const userService = require("../services/userService")
+const chatService = require("../services/chatService")
 const {apiErrorHandler} = require("../utils/error/apiErrorHandler")
 
 exports.getProfile = async (req, res, next)=>{
@@ -46,6 +47,16 @@ exports.getBookmarks = async (req, res, next)=>{
 exports.getFollowers = async (req, res, next)=>{
     try{
         const result = await userService.getFollowers(req, next)
+        if(result)
+            res.status(200).json({result})
+    }catch(err){
+        return next(apiErrorHandler(err, 500, err.message))
+    }
+}
+
+exports.postChat = async (req, res, next)=>{
+    try{
+        const result = await chatService.postChat(req, next)
         if(result)
             res.status(200).json({result})
     }catch(err){

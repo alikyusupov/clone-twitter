@@ -43,13 +43,19 @@ async function deleteChatDB(user) {
     }
 }
 
-async function saveChatHisotry(msg, user) {
+async function saveChatHisotry(msg, user){
     try {
         await Chat.findOneAndUpdate(
             { chat_id: user.room },
             {
                 $push: {
-                    chat_fields: `[${msg.time}] - ${msg.username} : ${msg.value}`,
+                    //chat_fields: `[${msg.time}] - ${msg.username} : ${msg.value}`,
+                    messages:{
+                        body:       msg.value,
+                        username:   msg.username,
+                        time:       msg.time,
+                        isMine:     msg.socketID
+                    }
                 },
             }
         ).exec();
