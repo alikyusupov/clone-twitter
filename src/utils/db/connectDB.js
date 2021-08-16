@@ -1,12 +1,12 @@
 const mongoose = require("mongoose")
-const config = require("../../../config")
-
+require("dotenv").require()
 exports.connectDB = () => {
-    return mongoose.connect(`mongodb+srv://Alisher:${config.MONGODB.PASSWORD}@dressify-zvh54.mongodb.net/twitter?retryWrites=true&w=majority`,
+    return mongoose.connect(`${process.env.MONGODB_URI}${process.env.MONGODB_NAME}${process.env.MONGODB_OPTIONS}`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useFindAndModify: false
+            useFindAndModify: false,
+            useCreateIndex:true
         }
     )
 }
