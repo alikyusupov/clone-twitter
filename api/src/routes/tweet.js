@@ -7,6 +7,10 @@ router.get('/:userID',
     isAuth, 
     tweetController.getTweets);
 
+router.get('/timeline/:userID', 
+    isAuth, 
+    tweetController.getTimeline);
+
 router.post('/',  
     express.json({limit: '50mb'}), 
     isAuth, 

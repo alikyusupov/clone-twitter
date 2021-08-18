@@ -1,5 +1,4 @@
 require('dotenv').config();
-const fs = require('fs')
 const S3 = require('aws-sdk/clients/s3');
 
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -15,18 +14,19 @@ const s3 = new S3({
 })
 
 function uploadFile(req) {
-    buf = Buffer.from(req.body.imagePath.replace(/^data:image\/\w+;base64,/, ""),'base64');
+    buf = Buffer.from(req.body.img.replace(/^data:image\/\w+;base64,/, ""), 'base64');
     const data = {
         Bucket: bucketName,
-        Key: req.body.postId,
+        Key: req.body.postID,
         Body: buf,
         ContentEncoding: 'base64',
         ContentType: 'image/jpeg'
     };
+    console.log(data)
     s3.putObject(data, (err, data) => {
-        if (err) { 
+        if (err) {
             console.log(err);
-            console.log('Error uploading data: ', data); 
+            console.log('Error uploading data: ', data);
         } else {
             console.log('successfully uploaded the image!');
         }

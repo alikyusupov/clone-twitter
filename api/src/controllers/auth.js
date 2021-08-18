@@ -15,7 +15,12 @@ exports.postLogin = async (req, res, next)=>{
    try{
        const result = await authService.login(req, next)
        if(result)
-            res.status(200).json({result})
+            res.status(200).json({
+                userId:     result.userId,
+                username:   result.name,
+                token:      result.token,
+                expiresIn:  result.expiresIn
+            })
    }catch(err){
         return next(apiErrorHandler(err, 401, err.message, err.errors))
    }

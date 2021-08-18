@@ -1,12 +1,14 @@
+require("dotenv").config()
 const app = require("./app")
 const path = require("path");
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 const { connectDB } = require("./utils/db/connectDB")
 const { unexpectedErrorHandler } = require("./utils/error/unexpectedErrorHandler")
 const server = require('http').createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 require('./socket.js')(io);
+
 
 
 

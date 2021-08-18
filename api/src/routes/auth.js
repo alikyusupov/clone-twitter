@@ -3,7 +3,7 @@ const router = express.Router()
 const { check, body} = require("express-validator")
 const authControllers = require("../controllers/auth")
 
-router.post("/signup", express.json(),
+router.post("/register", express.json(),
 [
     check('email')
       .isEmail()

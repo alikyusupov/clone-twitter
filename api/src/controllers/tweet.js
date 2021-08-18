@@ -22,6 +22,16 @@ exports.getTweets = async (req, res, next)=>{
     }
 }
 
+exports.getTimeline = async (req, res, next)=>{
+    try{
+        const result = await tweetService.getTimeline(req, next)
+        if(result)
+            res.status(200).json({result})
+    }catch(err){
+        return next(apiErrorHandler(err, 500, err.message))
+    }
+}
+
 exports.deleteTweet = async (req, res, next)=>{
     try{
         const result = await tweetService.deleteTweet(req, res, next)

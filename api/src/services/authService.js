@@ -14,9 +14,7 @@ exports.signup = async (req, res, next) => {
         const user = new User({
             email:      req.body.email,
             password:   hash,
-            name:       req.body.name,
-            lastname:   req.body.lastname,
-            DOB:        req.body.DOB,
+            name:       req.body.name
         })
         const result = await user.save()
         return result
@@ -35,9 +33,11 @@ exports.login = async (req, next) =>{
         const token = await JwtSignPromise(user.email, user._id)
         if(!token) return next(apiErrorHandler(null, 401, "Token generation fails"))
         return {
-            token:token,
-            userID:user._id,
-            expiresIn:3600*24000
+            token:      token,
+            userId:     user._id,
+            expiresIn:  3600*24000,
+            name:       user.name,
+            followings: user.followed
         }
     }catch(err){
         return next(apiErrorHandler(err, 401, err.message))

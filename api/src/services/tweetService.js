@@ -5,22 +5,25 @@ const {apiErrorHandler} = require("../utils/error/apiErrorHandler")
 const { uploadFile , getFileStream } = require('../s3.js');
 
 exports.postTweet = async (req, next) =>{
+    let tweet;
     try{
-        let tweet;
-        if (!req.body.imagePath) {
+        if (!req.body.img) {
             tweet =  new Tweet({ 
-                authorID:req.body.authorID, 
-                desc:req.body.desc,
-                id:req.body.id
+                authorID:   req.body.authorID, 
+                desc:       req.body.desc,
+                id:         req.body.id,
+                name:       req.body.name
             })
         } else {
             await uploadFile(req);
-            const imagePath = `/images/${req.body.postId}`;
+            console.log
+            const imagePath = `/images/${req.body.postID}`;
             tweet =  new Tweet({ 
-                authorID:req.body.authorID, 
-                desc:req.body.desc,
-                id:req.body.id,
-                imagePath: imagePath
+                authorID:   req.body.authorID, 
+                desc:       req.body.desc,
+                id:         req.body.id,
+                name:       req.body.name,
+                imagePath:  imagePath
             })
         }
         const result = await tweet.save()
@@ -34,7 +37,8 @@ exports.postTweet = async (req, next) =>{
 exports.getTweets = async (req, next) =>{
     try{
         const userID = req.params.userID;
-        const details = await User.findById(userID).populate({
+        const details = await User.findById(userID)
+        .populate({
             path:"tweets",
             populate:{
                 path:"comments",
@@ -44,10 +48,26 @@ exports.getTweets = async (req, next) =>{
                 }
             }
         })
+        console.log(details)
         const {tweets, lastname, name} = details
         return {tweets, lastname, name}
     }catch(err){
         return next(apiErrorHandler(err, 401, "Tweets fetching failure!"))
+    }
+}
+
+exports.getTimeline = async (req, next) =>{
+    try{
+        const user = await User.findById(req.params.userID).populate({
+            path:"followers",
+            populate:{
+                path:"tweets"
+            }
+        })
+        const relatedTweets = user.followers.flatMap(follower=>follower.tweets)
+        return relatedTweets
+    }catch(err){
+        return next(apiErrorHandler(err, 401, err.message))
     }
 }
 
