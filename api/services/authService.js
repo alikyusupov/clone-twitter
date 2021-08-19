@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator")
 const { JwtSignPromise } = require("../utils/jwt/jwtSignPromise")
 const { errorHandler } = require("../utils/error/errorHandler")
-console.log(typeof JwtSignPromise)
 
 exports.register = async (req, next) => {
     const errors = validationResult(req)

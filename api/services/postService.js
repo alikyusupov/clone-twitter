@@ -1,5 +1,5 @@
 const Post = require("../models/Post");
-// const User = require("../models/User");
+const User = require("../models/User");
 const { uploadFile } = require('../s3');
 const { errorHandler } = require("../utils/error/errorHandler")
 

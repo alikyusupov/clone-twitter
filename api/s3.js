@@ -24,8 +24,7 @@ function uploadFile(req) {
     };
     s3.putObject(data, (err, data) => {
         if (err) {
-            console.log(err);
-            console.log('Error uploading data: ', data);
+            console.log('Error uploading data: ', err);
         } else {
             console.log('successfully uploaded the image!');
         }

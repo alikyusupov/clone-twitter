@@ -1,7 +1,7 @@
-// const router = require("express").Router();
-// const isAuth = require("../middlewares/isAuth")
-// const imageController = require("../controllers/imageController")
+const router = require("express").Router();
+const {isAuth} = require("../middlewares/isAuth")
+const imageController = require("../controllers/imageController")
 
-// router.get("/:key", isAuth, imageController.getImage)
+router.get("/:key", isAuth, imageController.getImage)
 
-// module.exports = router;
+module.exports = router;

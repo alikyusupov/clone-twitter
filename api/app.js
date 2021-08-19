@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const { errorHandler } = require("./middleware/error")
+const { errorHandler } = require("./middlewares/error")
 const cors = require('cors')
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -8,18 +8,14 @@ const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const imageRoute = require("./routes/images");
-const conversationRoute = require("./routes/coversations");
+const conversationRoute = require("./routes/conversations");
 const messagesRoute = require("./routes/messages");
 const groupRoute = require("./routes/group");
-
 
 
 app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
-
-// app.use(express.json({ limit: "50mb" }));
-// app.use(express.urlencoded({ limit: "50mb" }));
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
